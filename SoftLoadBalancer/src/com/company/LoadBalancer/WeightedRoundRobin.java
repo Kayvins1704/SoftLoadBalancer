@@ -34,7 +34,7 @@ public class WeightedRoundRobin extends RequestRoutingStrategy {
     void routeRequest() {
         if(currServer == -1) currServer = serverLi.get(currInd).getId();
         if(requestsHandled.get(currServer) < serverLi.get(currInd).getWeight()){
-            System.out.println("Request has been handled by Server: " + currServer);
+            System.out.println("Request has been handled by Server with ID: " + currServer);
             requestsHandled.set(currServer, requestsHandled.get(currServer) + 1);
             totRequestsHandled.set(currServer, totRequestsHandled.get(currServer) + 1);
             if(requestsHandled.get(currServer) == serverLi.get(currInd).getWeight()){

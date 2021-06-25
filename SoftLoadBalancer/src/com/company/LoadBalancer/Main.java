@@ -1,16 +1,17 @@
 package com.company.LoadBalancer;
 
 import com.company.Exceptions.IncorrectWeightException;
+import com.company.Exceptions.MinServersNotAvailable;
 import com.company.Exceptions.StrategyNotFoundException;
 
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws StrategyNotFoundException {
+    public static void main(String[] args) throws StrategyNotFoundException, MinServersNotAvailable {
         // write your code here
         SoftLoadBalancer softLoadBalancer = SoftLoadBalancer.getInstance();
         System.out.println("Please specify Server with its weight " +
-                "total assignable weight is :" + LBConstants.MAX_WEIGHT);
+                "total assignable weight is : " + LBConstants.MAX_WEIGHT);
         Scanner sc = new Scanner(System.in);
         int remWeight = LBConstants.MAX_WEIGHT;
         int id = 0;
@@ -24,9 +25,11 @@ public class Main {
                 remWeight -= weight;
                 System.out.println("Remaining server weight is :" + remWeight);
             } catch (IncorrectWeightException e) {
-
+                e.printStackTrace();
             }
         }
+
+        softLoadBalancer.checkNoOfServersLessThan2();
 
         softLoadBalancer.implementStrategy(StrategyList.WEIGHTEDROUNDROBIN.name());
 
